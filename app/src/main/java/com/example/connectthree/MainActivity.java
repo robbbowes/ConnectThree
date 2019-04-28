@@ -43,6 +43,20 @@ public class MainActivity extends AppCompatActivity {
                 activePlayer = activePlayer == 1 ? 2 : 1;
             }
         }
+        gameContinuable();
+    }
+
+    private void gameContinuable() {
+        boolean allClicked = true;
+        for (int i = 0; i < gameState.length; i++) {
+            if (gameState[i] == 0) {
+                allClicked = false;
+            }
+        }
+        if (winner == 0 && allClicked) {
+            Button replay = findViewById(R.id.replayButton);
+            replay.setVisibility(View.VISIBLE);
+        }
     }
 
     private void winnerChecker() {
