@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,8 +16,9 @@ public class MainActivity extends AppCompatActivity {
     private int winner = 0;
 
     public void clickGrid(View view) {
-        if (winner == 0) {
-            ImageView imageView = (ImageView) view;
+        ImageView imageView = (ImageView) view;
+        boolean alreadyClicked = gameState[Integer.parseInt(imageView.getTag().toString())] != 0;
+        if (winner == 0 && !alreadyClicked) {
             imageView.setTranslationY(-1500);
 
             int clickedBox = Integer.parseInt(imageView.getTag().toString());
@@ -27,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
             imageView.animate().translationYBy(1500).rotation(1080).setDuration(300);
             winnerChecker();
             if (winner != 0) {
+                String winnerColour = winner == 1 ? "Red" : "Yellow";
                 System.out.println(activePlayer + " has won!!");
+                Toast.makeText(this, winnerColour + " has won!", Toast.LENGTH_LONG).show();
             } else {
                 activePlayer = activePlayer == 1 ? 2 : 1;
             }
@@ -38,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         for (int[] winningCombo : winningCombos) {
             if (
                     (gameState[winningCombo[0]] == gameState[winningCombo[1]])
-                    && (gameState[winningCombo[1]] == gameState[winningCombo[2]])
-                    && (gameState[winningCombo[0]] != 0)
+                            && (gameState[winningCombo[1]] == gameState[winningCombo[2]])
+                            && (gameState[winningCombo[0]] != 0)
             ) {
                 winner = activePlayer;
                 break;
